@@ -1,6 +1,6 @@
 import { React, Component } from "react";
 import API from '../../API/Api';
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import Delete from "./Delete.js";
 
 class List extends Component {
@@ -19,7 +19,7 @@ class List extends Component {
         )
             .catch(error => console.log(error))
     }
-    Blog(blogList){
+    Blog(blogList) {
         this.setState({
             blogList: blogList
         });
@@ -46,16 +46,15 @@ class List extends Component {
                                         <td>{blog.id}</td>
                                         <td>{blog.title}</td>
                                         <td className='w-25'>{blog.description}</td>
-                                        <td><button className="btn btn-success"><Link to={"/blog/edit/"+blog.id} >Edit</Link></button>
+                                        <td><button className="btn btn-success"><Link to={"/blog/edit/" + blog.id} >Edit</Link></button>
                                             <Delete id={blog.id} />
-                                            </td>
+                                        </td>
                                     </tr>
                                 )}
                             </tbody>
                         </table>
                         <Link to="/blog/add" className="btn btn-info mt-2">Add New</Link>
                     </div>
-
                 </div>
             </div>
         );

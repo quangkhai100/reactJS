@@ -2,102 +2,101 @@ import React, { Component } from 'react';
 import FormErrors1 from '../FormErrors1'
 import API from '../../API/Api';
 
-
-
 class Register extends Component {
   constructor(props) {
     super(props)
     this.state = {
-        name:'',
-        email:'',
-        password:'',
-        formErrors: {},
-        registerSuccess:'',
-        color:''
+      name: '',
+      email: '',
+      password: '',
+      formErrors: {},
+      registerSuccess: '',
+      color: ''
     }
     this.handleInput = this.handleInput.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  handleInput(e){
+
+  handleInput(e) {
     const nameInput = e.target.name;
     const value = e.target.value;
     console.log(e)
     this.setState({
       [nameInput]: value
     })
-      
   }
-  handleSubmit(e){
+
+  handleSubmit(e) {
     e.preventDefault();
-    let {name, email, password,formErrors } = this.state
+    let { name, email, password, formErrors } = this.state
     let flag = true;
-    if(!name) {
-        flag = false;
-        formErrors.name = "Vui long nhap name";
+    if (!name) {
+      flag = false;
+      formErrors.name = "Vui long nhap name";
+    }
+    if (!email) {
+      flag = false;
+      formErrors.email = "Vui long nhap email";
+    }
+    if (!password) {
+      flag = false;
+      formErrors.password = "Vui long nhap mat khau";
+    }
+    if (!flag) {
+      this.setState({
+        registerSuccess: '',
+        formErrors: formErrors
+      });
+    } else {
+      const data = {
+        name: name,
+        email: email,
+        password: password
       }
-    if(!email) {
-        flag = false;
-        formErrors.email = "Vui long nhap email";
-      }
-    if(!password) {
-        flag = false;
-        formErrors.password = "Vui long nhap mat khau";
-      }
-      if(!flag) {
-        this.setState({
-            registerSuccess:'',
-            formErrors: formErrors
-        });
-      } else{
-        const data= {
-          name:name,
-          email:email,
-          password:password
-        }
-        console.log("big")
+      console.log("big")
 
-        API.post('register', data)
+      API.post('register', data)
         .then(response => {
-          if(response.data.errors) {
-             this.setState({
-                 formErrors: response.data.errors
-             })
-          } else {
-             this.setState({
-                 name : '',
-                 email : '',
-                 password: '',
-                 registerSuccess:'Đăng ký thành công',
-                 formErrors:{},
-                 color:"text-success",
-             })
-          }
-       })
-       .catch(errors => {
-             console.log(errors)
-             this.setState({
-              registerSuccess: "đăng ký không đúng",
-              color:"text-danger",
-              formErrors:{},                
+          if (response.data.errors) {
+            this.setState({
+              formErrors: response.data.errors
             })
-       })
-      }
+          } else {
+            this.setState({
+              name: '',
+              email: '',
+              password: '',
+              registerSuccess: 'Đăng ký thành công',
+              formErrors: {},
+              color: "text-success",
+            })
+          }
+        })
+        .catch(errors => {
+          console.log(errors)
+          this.setState({
+            registerSuccess: "đăng ký không đúng",
+            color: "text-danger",
+            formErrors: {},
+          })
+        })
+    }
   }
-  render () {
 
+  render() {
     return (
-    <div className="col-5">
+      <div className="col-5">
         <h2>Register account</h2>
         <FormErrors1 formErrors={this.state.formErrors} />
         <form onSubmit={this.handleSubmit}>
           <div className="form-group" >
             <label htmlFor="exampleInputEmail1">Name</label>
-            <input type="name" className="form-control" name="name"  onChange={this.handleInput} value={this.state.name} />
+            <input type="name" className="form-control" name="name" onChange={this.handleInput} value={this.state.name} />
             <small id="emailHelp" className="form-text text-muted"></small>
           </div>
           <div className="form-group" >
             <label htmlFor="exampleInputEmail1">Email address</label>
-            <input type="email" className="form-control" name="email"  onChange={this.handleInput} aria-describedby="emailHelp" placeholder="Enter email" value={this.state.email} />
+            <input type="email" className="form-control" name="email" onChange={this.handleInput} aria-describedby="emailHelp" placeholder="Enter email" value={this.state.email} />
             <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
           </div>
           <div className="form-group" >

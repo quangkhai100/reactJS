@@ -6,68 +6,76 @@ class Edit extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            title:'',
-            description:'',
-            content:'',
-            formErrors:{},
-            successMessage:''
+            title: '',
+            description: '',
+            content: '',
+            formErrors: {},
+            successMessage: '',
+            detail: {},
         }
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleInput = this.handleInput.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleInput = this.handleInput.bind(this)
     }
-    handleInput(e){
+    handleInput(e) {
         const nameInput = e.target.name
         const value = e.target.value
         this.setState({
-          [nameInput]: value
+            [nameInput]: value
         })
     }
 
-    componentDidMount(){
-        console.log()
+    componentDidMount() {
+        API.get('blog/' + this.props.match.params.id).then(
+            res => {
+                const detail = res.data
+                this.setState({ detail })
+            }
+        )
+            .catch(error => console.log(error))
     }
-    handleSubmit(e){
+
+    handleSubmit(e) {
         e.preventDefault();
-        let { title, description, content, formErrors } = this.state
+        let { title, description, formErrors } = this.state
         let flag = true;
-        if(!title){
+        if (!title) {
             flag = false;
-            formErrors.title=' vui lòng nhập title'
+            formErrors.title = ' vui lòng nhập title'
         }
-        if(!description){
+        if (!description) {
             flag = false;
-            formErrors.description=' vui lòng nhập description'
+            formErrors.description = ' vui lòng nhập description'
         }
         if (!flag) {
             this.setState({
-              successMessage: '',
-              formErrors: formErrors
+                successMessage: '',
+                formErrors: formErrors
             });
-          } else {
+        } else {
             const data = {
                 title: title,
                 description: description,
             }
-            API.put('blog/'+this.props.match.params.id,data).then(respone => {
-                this.setState({successMessage: 'Add success'})
+            API.put('blog/' + this.props.match.params.id, data).then(respone => {
+                this.setState({ successMessage: 'Add success' })
             })
-          }
+        }
     }
-    
+
     render() {
+        console.log()
         return (
-            
             <div className="col-5">
                 <h2>Edit blog</h2>
                 <FormErrors1 formErrors={this.state.formErrors} />
                 <form onSubmit={this.handleSubmit} >
                     <div className="form-group" >
                         <label htmlFor="title">Title</label>
-                        <input type="text" className="form-control" name="title" onChange = {this.handleInput} />
+                        <input type="text" className="form-control" defaultValue={this.state.detail.title} name="title" onChange={this.handleInput} />
                     </div>
                     <div className="form-group" >
                         <label htmlFor="">Description</label>
-                        <textarea  type="text" className="form-control" name="description" onChange = {this.handleInput}/>
+                        <textarea type="text" className="form-control" defaultValue={this.state.detail.description} name="description" onChange={this.handleInput} />
                     </div>
                     <button type="submit" className="btn btn-primary mt-2">Submit</button>
                     <p>{this.state.successMessage}</p>

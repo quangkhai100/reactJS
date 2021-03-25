@@ -16,6 +16,7 @@ class Login extends Component {
     this.handleInput = this.handleInput.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
   handleInput(e) {
     const nameInput = e.target.name
     const value = e.target.value
@@ -23,6 +24,7 @@ class Login extends Component {
       [nameInput]: value
     })
   }
+
   handleSubmit(e) {
     e.preventDefault();
     let { email, password, formErrors } = this.state
@@ -66,10 +68,8 @@ class Login extends Component {
               successMessage: 'you\'r in',
               formErrors: {},
               color: "text-success",
-              isLoggedIn:true
+              isLoggedIn: true
             });
-            
-
           } else {
             this.setState({
               formErrors: response.data.errors
@@ -88,11 +88,11 @@ class Login extends Component {
   }
   render() {
     <Context.Consumer>
-          {
-            globalcontext => (
-             globalcontext.changeStateButton(this.state.isLoggedIn)
-            )
-          }
+      {
+        globalcontext => (
+          globalcontext.changeStateButton(this.state.isLoggedIn)
+        )
+      }
     </Context.Consumer>
     return (
       <div className="col-5">
@@ -110,9 +110,7 @@ class Login extends Component {
           </div>
           <button type="submit" className="btn btn-primary mt-2">Submit</button>
           <p className={this.state.color}>{this.state.successMessage}</p>
-          
         </form>
-        
       </div>
     )
   }

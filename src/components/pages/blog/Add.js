@@ -6,51 +6,51 @@ class Add extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            title:'',
-            description:'',
-            formErrors:{},
-            successMessage:''
+            title: '',
+            description: '',
+            formErrors: {},
+            successMessage: ''
         }
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleInput = this.handleInput.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleInput = this.handleInput.bind(this)
     }
-    handleInput(e){
+    handleInput(e) {
         const nameInput = e.target.name
         const value = e.target.value
         this.setState({
-          [nameInput]: value
+            [nameInput]: value
         })
     }
-    handleSubmit(e){
+    handleSubmit(e) {
         e.preventDefault();
         let { title, description, content, formErrors } = this.state
         let flag = true;
-        if(!title){
+        if (!title) {
             flag = false;
-            formErrors.title=' vui lòng nhập title'
+            formErrors.title = ' vui lòng nhập title'
         }
-        if(!description){
+        if (!description) {
             flag = false;
-            formErrors.description=' vui lòng nhập description'
+            formErrors.description = ' vui lòng nhập description'
         }
 
         if (!flag) {
             this.setState({
-              successMessage: '',
-              formErrors: formErrors
+                successMessage: '',
+                formErrors: formErrors
             });
-          } else {
+        } else {
             const data = {
                 title: title,
                 description: description,
                 content: content,
             }
-            API.post('blog',data).then(respone => {
-                this.setState({successMessage: 'Update Success'})
+            API.post('blog', data).then(respone => {
+                this.setState({ successMessage: 'Update Success' })
             })
-          }
+        }
     }
-    
+
     render() {
         return (
             <div className="col-5">
@@ -59,11 +59,11 @@ class Add extends Component {
                 <form onSubmit={this.handleSubmit} >
                     <div className="form-group" >
                         <label htmlFor="title">Title</label>
-                        <input type="text" className="form-control" name="title" onChange = {this.handleInput} />
+                        <input type="text" className="form-control" name="title" onChange={this.handleInput} />
                     </div>
                     <div className="form-group" >
                         <label htmlFor="">Description</label>
-                        <textarea  type="text" className="form-control" name="description" onChange = {this.handleInput}/>
+                        <textarea type="text" className="form-control" name="description" onChange={this.handleInput} />
                     </div>
                     <button type="submit" className="btn btn-primary mt-2">Submit</button>
                     <p>{this.state.successMessage}</p>
