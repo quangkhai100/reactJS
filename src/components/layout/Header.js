@@ -39,9 +39,6 @@ class Header extends Component {
     if (isLoggedIn) {
       return <button className="btn btn-outline-danger" onClick={this.logOutHandler}>Log out</button >
     }
-    else {
-
-    }
   }
 
   render() {
