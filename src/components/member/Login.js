@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import FormErrors1 from '../FormErrors1'
-import API from '../../API/Api';
-import { Context } from '../../context/Context'
+import API from '../API/Api';
 
 class Login extends Component {
   constructor(props) {
@@ -87,13 +86,6 @@ class Login extends Component {
     }
   }
   render() {
-    <Context.Consumer>
-      {
-        globalcontext => (
-          globalcontext.changeStateButton(this.state.isLoggedIn)
-        )
-      }
-    </Context.Consumer>
     return (
       <div className="col-5">
         <h2>Login account</h2>
@@ -108,7 +100,7 @@ class Login extends Component {
             <label htmlFor="exampleInputPassword1">Password</label>
             <input type="password" className="form-control" name="password" onChange={this.handleInput} id="exampleInputPassword1" placeholder="Password" value={this.state.password} />
           </div>
-          <button type="submit" className="btn btn-primary mt-2">Submit</button>
+          <button type="submit" className="btn btn-primary mt-2">Login</button>
           <p className={this.state.color}>{this.state.successMessage}</p>
         </form>
       </div>

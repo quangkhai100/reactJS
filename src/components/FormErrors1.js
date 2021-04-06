@@ -23,4 +23,4 @@ class FormErrors1 extends Component {
     )
   }
 }
-export default FormErrors1;
+export default  FormErrors1;

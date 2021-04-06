@@ -1,8 +1,9 @@
-import { React, Component } from "react";
-import FormErrors1 from '../FormErrors1'
-import API from '../../API/Api';
+import React, {Component} from 'react'
+import FormErrors1 from "../../components/FormErrors1"
+import {connect} from 'react-redux';
+import {actAddBlogRequest} from '../../actions/index';
 
-class Add extends Component {
+class BlogActionPage extends Component{
     constructor(props) {
         super(props)
         this.state = {
@@ -14,13 +15,16 @@ class Add extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleInput = this.handleInput.bind(this)
     }
+
     handleInput(e) {
         const nameInput = e.target.name
         const value = e.target.value
         this.setState({
+            // var a={}/a[nameINput] 
             [nameInput]: value
         })
     }
+    
     handleSubmit(e) {
         e.preventDefault();
         let { title, description, content, formErrors } = this.state
@@ -45,9 +49,8 @@ class Add extends Component {
                 description: description,
                 content: content,
             }
-            API.post('blog', data).then(respone => {
-                this.setState({ successMessage: 'Update Success' })
-            })
+            this.props.onAddBlog(data)
+            this.setState({successMessage: 'ok'})
         }
     }
 
@@ -65,11 +68,18 @@ class Add extends Component {
                         <label htmlFor="">Description</label>
                         <textarea type="text" className="form-control" name="description" onChange={this.handleInput} />
                     </div>
-                    <button type="submit" className="btn btn-primary mt-2">Submit</button>
+                    <button type="submit" className="btn btn-primary mt-2">Add Blog</button>
                     <p>{this.state.successMessage}</p>
                 </form>
             </div>
         );
     }
 }
-export default Add;
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        onAddBlog : (blog) => {
+            dispatch(actAddBlogRequest(blog))
+        }
+    }
+}
+export default connect(null,mapDispatchToProps)(BlogActionPage);

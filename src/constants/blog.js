@@ -1,0 +1,7 @@
+export const FETCH_BLOGS = 'FETCH_BLOGS'
+export const FETCH_BLOGS_FAILED = 'FETCH_BLOGS_FAILED'
+export const FETCH_BLOGS_SUCCESS = 'FETCH_BLOGS_SUCCESS'
+export const ADD_BLOG = 'ADD_BLOG'
+export const DELETE_BLOG = 'DELETE_BLOG'
+export const UPDATE_BLOG = 'UPDATE_BLOG'
+export const EDIT_BLOG = 'EDIT_BLOG'
